@@ -8,6 +8,7 @@ const ChefServiceBg = () => {
       bgImage={chefImg} //backgroud image
       bgImageAlt="the dog"
       strength={-200}
+      className="mb-24"
     >
       {/* Blur transition from min to max */}
       <div
