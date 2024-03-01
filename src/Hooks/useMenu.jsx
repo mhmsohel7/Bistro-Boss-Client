@@ -1,0 +1,18 @@
+import { useEffect, useState } from "react";
+
+const useMenu = () => {
+  //custom hook
+  const [menu, setMenu] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    fetch("menu.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setMenu(data);
+        setLoading(false);
+      });
+  }, []);
+  //menu state, loading state return
+  return [menu, loading];
+};
+export default useMenu;
