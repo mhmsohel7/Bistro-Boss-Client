@@ -8,10 +8,19 @@ import "react-tabs/style/react-tabs.css";
 
 import useMenu from "../../../Hooks/useMenu";
 import OrderTab from "../OrderTab/OrderTab";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Order = () => {
-  //initially tabIndex er value 0 hobe.
-  const [tabIndex, setTabIndex] = useState(0);
+  //create a categories.
+  const categories = ["salad", "pizza", "soup", "dessert", "drinks"];
+  //route er params teke "category" ta destructure kora hoise.
+  const { category } = useParams();
+  //indexOf() use korle, categories array er pottekta index pabo. [0,1,2, .....]
+  const initialIndex = categories.indexOf(category);
+
+  //initially tabIndex er value categories er index hobe.
+  const [tabIndex, setTabIndex] = useState(initialIndex);
 
   // data load from custom hook "useMenu". Data gulu "menu" te destructure kora hoise.
   const [menu] = useMenu();
@@ -25,6 +34,9 @@ const Order = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Bistro Boss | Order Food</title>
+      </Helmet>
       <Cover img={orderCoverImg} title="Order Food"></Cover>
 
       {/* React tab start. tobe must ekta state set korte hobe. then defaultIndex e "tabIndex" bosbe, and setTabIndex set kore dite hobe */}

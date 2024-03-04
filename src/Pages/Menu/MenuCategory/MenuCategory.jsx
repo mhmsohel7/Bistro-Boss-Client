@@ -7,15 +7,17 @@ const MenuCategory = ({ items, title, img }) => {
     <div className="pt-8">
       {/* if title is found, then cover will found. */}
       {title && <Cover img={img} title={title}></Cover>}
+
+      {/* Menu Item show, using Map */}
       <div className="grid md:grid-cols-2 gap-8 my-16">
         {items.map((item) => (
           <MenuItem key={item._id} item={item}></MenuItem>
         ))}
       </div>
 
-      {/* Order Now Button */}
+      {/* Order Now Button with "dynamic" */}
       <div className="text-center mt-6 mb-6">
-        <Link to="/order">
+        <Link to={`/order/${title}`}>
           <button className="btn btn-outline border-0 border-b-4">
             ORDER NOW
           </button>
