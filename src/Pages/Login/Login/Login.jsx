@@ -5,7 +5,7 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import { AuthContext } from "../../../Providers/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 
@@ -13,6 +13,11 @@ const Login = () => {
   const [disabled, setDisabled] = useState(true);
 
   const { signInUser } = useContext(AuthContext);
+
+  //Private route
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   //*** React Captcha start ***/
   useEffect(() => {
@@ -36,32 +41,30 @@ const Login = () => {
     console.log(email, password);
 
     //sign in using auth firebase.
-    signInUser(email, password)
-      .then((result) => {
-        const loggedUser = result.user;
-        console.log(loggedUser);
-        // sweetAlert 2
-        Swal.fire({
-          title: "User Login Successfully",
-          showClass: {
-            popup: `
+    signInUser(email, password).then((result) => {
+      const loggedUser = result.user;
+      console.log(loggedUser);
+      // sweetAlert 2
+      Swal.fire({
+        title: "User Login Successfully",
+        showClass: {
+          popup: `
               animate__animated
               animate__fadeInUp
               animate__faster
             `,
-          },
-          hideClass: {
-            popup: `
+        },
+        hideClass: {
+          popup: `
               animate__animated
               animate__fadeOutDown
               animate__faster
             `,
-          },
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+        },
       });
+      //Redirect user After Login.
+      navigate(from, { replace: true });
+    });
   };
 
   return (
