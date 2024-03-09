@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
@@ -7,9 +7,9 @@ import {
 import { AuthContext } from "../../../Providers/AuthProvider";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
 
   const { signInUser } = useContext(AuthContext);
@@ -18,10 +18,9 @@ const Login = () => {
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
-  const handleValidateCaptcha = () => {
-    //useRef er current value k, "user_captcha_value" te store kora hoise
-    const user_captcha_value = captchaRef.current.value;
-    if (validateCaptcha(user_captcha_value) == true) {
+  const handleValidateCaptcha = (e) => {
+    const user_captcha_value = e.target.value;
+    if (validateCaptcha(user_captcha_value)) {
       setDisabled(false);
     } else {
       setDisabled(true);
@@ -41,6 +40,24 @@ const Login = () => {
       .then((result) => {
         const loggedUser = result.user;
         console.log(loggedUser);
+        // sweetAlert 2
+        Swal.fire({
+          title: "User Login Successfully",
+          showClass: {
+            popup: `
+              animate__animated
+              animate__fadeInUp
+              animate__faster
+            `,
+          },
+          hideClass: {
+            popup: `
+              animate__animated
+              animate__fadeOutDown
+              animate__faster
+            `,
+          },
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -100,18 +117,12 @@ const Login = () => {
                 </label>
                 <input
                   type="text"
-                  ref={captchaRef}
+                  onBlur={handleValidateCaptcha} //onBlur use korle better.
                   name="capcha"
                   placeholder="Type the capcha above"
                   className="input input-bordered"
                   required
                 />
-                <button
-                  onClick={handleValidateCaptcha}
-                  className="btn btn-outline btn-xs mt-2"
-                >
-                  Validate
-                </button>
               </div>
               {/* React Capcha input end--- */}
               <div className="form-control mt-6">
