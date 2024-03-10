@@ -30,6 +30,7 @@ const Navbar = () => {
       {/* DYNAMIC LOGOUT/LOGIN */}
       {user ? (
         <>
+          <span>{user?.displayName}</span>
           <button onClick={handleLogOut} className="btn btn-ghost">
             LOG OUT
           </button>
