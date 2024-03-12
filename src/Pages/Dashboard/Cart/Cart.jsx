@@ -1,9 +1,37 @@
+import Swal from "sweetalert2";
 import useCart from "../../../Hooks/useCart";
 import TableRow from "./TableRow/TableRow";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Cart = () => {
-  const [cart] = useCart();
+  const [cart, refetch] = useCart();
+  const axiosSecure = useAxiosSecure();
   const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+  const handleDelete = (id) => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/carts/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
   return (
     <div>
       <div className="flex justify-evenly mb-8">
@@ -25,7 +53,12 @@ const Cart = () => {
           </thead>
           <tbody>
             {cart.map((item, index) => (
-              <TableRow key={item._id} item={item} index={index}></TableRow>
+              <TableRow
+                key={item._id}
+                item={item}
+                index={index}
+                handleDelete={handleDelete}
+              ></TableRow>
             ))}
           </tbody>
         </table>

@@ -1,6 +1,6 @@
 import { FaTrashAlt } from "react-icons/fa";
 
-const TableRow = ({ item, index }) => {
+const TableRow = ({ item, index, handleDelete }) => {
   return (
     <>
       {/* row 1 */}
@@ -18,7 +18,10 @@ const TableRow = ({ item, index }) => {
         <td>{item.name}</td>
         <td> ${item.price} </td>
         <th>
-          <button className="btn btn-ghost btn-lg">
+          <button
+            onClick={() => handleDelete(item._id)}
+            className="btn btn-ghost btn-lg"
+          >
             <FaTrashAlt className="text-red-600"></FaTrashAlt>
           </button>
         </th>
