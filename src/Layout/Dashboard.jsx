@@ -1,6 +1,7 @@
 import {
   FaAd,
   FaCalendar,
+  FaHamburger,
   FaHome,
   FaList,
   FaShoppingCart,
@@ -42,9 +43,20 @@ const Dashboard = () => {
               <FaList></FaList> My Booking
             </NavLink>
           </li>
+          <div className="divider"></div>
+          <li>
+            <NavLink to="/">
+              <FaHome></FaHome> Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/order/salad">
+              <FaHamburger></FaHamburger> Menu
+            </NavLink>
+          </li>
         </ul>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 p-8">
         <Outlet></Outlet>
       </div>
     </div>
