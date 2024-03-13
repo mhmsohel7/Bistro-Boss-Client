@@ -8,6 +8,7 @@ import { AuthContext } from "../../../Providers/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import SocialLogin from "../../../Components/SocialLogin/SocialLogin";
 
 const Login = () => {
   const [disabled, setDisabled] = useState(true);
@@ -128,7 +129,7 @@ const Login = () => {
                 />
               </div>
               {/* React Capcha input end--- */}
-              <div className="form-control mt-6">
+              <div className="form-control mt-3">
                 <input
                   disabled={disabled}
                   className="btn btn-outline border-0 border-b-4 font-bold bg-slate-200 text-orange-600 border-orange-400"
@@ -137,11 +138,12 @@ const Login = () => {
                 />
               </div>
             </form>
-            <p className="text-orange-500 text-center mb-4 text-xl">
+            <p className="text-orange-500 text-center mb-2 text-xl">
               <small>
                 New Here? <Link to="/signUp">Create an account.</Link>
               </small>
             </p>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>
