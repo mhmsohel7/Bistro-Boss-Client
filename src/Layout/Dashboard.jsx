@@ -1,6 +1,7 @@
 import {
   FaAd,
   FaCalendar,
+  FaEnvelope,
   FaHamburger,
   FaHome,
   FaList,
@@ -11,6 +12,10 @@ import useCart from "../Hooks/useCart";
 
 const Dashboard = () => {
   const [cart] = useCart();
+
+  //TODO : get isAdmin value from the database
+  const isAdmin = true;
+
   return (
     <div className="flex">
       <div className="w-64 min-h-screen bg-orange-400">
@@ -45,6 +50,8 @@ const Dashboard = () => {
               <FaList></FaList> My Booking
             </NavLink>
           </li>
+
+          {/* Shared Nav Links */}
           <div className="divider"></div>
           <li>
             <NavLink to="/">
@@ -54,6 +61,11 @@ const Dashboard = () => {
           <li>
             <NavLink to="/order/salad">
               <FaHamburger></FaHamburger> Menu
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/order/contact">
+              <FaEnvelope></FaEnvelope> Contact
             </NavLink>
           </li>
         </ul>
