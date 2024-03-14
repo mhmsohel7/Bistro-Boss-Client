@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { app } from "../Firebase/firebase.config";
+import useAxiosPublic from "../Hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 
@@ -20,6 +21,7 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic();
 
   // sign up new users with email, password.
   const registerUser = (email, password) => {
@@ -48,8 +50,19 @@ const AuthProvider = ({ children }) => {
   // observer auth state change
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (loggedUser) => {
-      // console.log("logged in user", loggedUser);
       setUser(loggedUser);
+      if (loggedUser) {
+        //get token and store client
+        const userInfo = { email: loggedUser.email };
+        axiosPublic.post("/jwt", userInfo).then((res) => {
+          if (res.data.token) {
+            localStorage.setItem("access-token", res.data.token);
+          }
+        });
+      } else {
+        //TODO : remove token (if token stored in the client side : local storage, caching, in memory)
+        localStorage.removeItem("access-token");
+      }
       setLoading(false);
     });
 
