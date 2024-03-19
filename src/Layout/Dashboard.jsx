@@ -12,12 +12,13 @@ import {
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 import useCart from "../Hooks/useCart";
+import useAdmin from "../Hooks/useAdmin";
 
 const Dashboard = () => {
   const [cart] = useCart();
 
-  //TODO : get isAdmin value from the database
-  const isAdmin = true;
+  // get isAdmin value from the database
+  const [isAdmin] = useAdmin(); //custom hook
 
   return (
     <div className="flex">
